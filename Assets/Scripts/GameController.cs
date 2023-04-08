@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    [SerializeField]private DoorKnob doorKnob;
+    public bool doorKnobActive = false;
     [SerializeField]private Transform r_MouseSpawner;
     [SerializeField]private Transform l_MouseSpawner;
     [SerializeField]private Transform spiderSpawner;
@@ -16,6 +18,7 @@ public class GameController : MonoBehaviour
     {
         StartCoroutine(mouseSpawnerTimer());
         StartCoroutine(spiderSpawnerTimer());
+        StartCoroutine(doorKnobTimer());
     }
 
     IEnumerator mouseSpawnerTimer ()
@@ -52,6 +55,22 @@ public class GameController : MonoBehaviour
 
                 Instantiate(spider, spiderSpawner);
                 spiderActive = true;
+            }
+            yield return null;
+        }
+    }
+
+    IEnumerator doorKnobTimer ()
+    {
+        while (true)
+        {
+            if (!doorKnobActive)
+            {
+                float newTime = Random.Range(1.5f, 5.0f);
+
+                yield return new WaitForSeconds(newTime);
+                doorKnob.StartAnim();
+                doorKnobActive = true;
             }
             yield return null;
         }

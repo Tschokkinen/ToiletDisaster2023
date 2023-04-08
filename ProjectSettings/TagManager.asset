@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Pooplet
   layers:
   - Default
   - TransparentFX
@@ -52,4 +53,7 @@ TagManager:
     locked: 0
   - name: Distractions
     uniqueID: 287074219
+    locked: 0
+  - name: PoopletMeter
+    uniqueID: 3699209181
     locked: 0

@@ -6,6 +6,8 @@ public class TargetController : MonoBehaviour
 {
     public List<GameObject> enemies = new List<GameObject>();
     [SerializeField] private LayerMask layermask;
+    [SerializeField]private DoorKnob doorKnob;
+    [SerializeField]private PoopletMeter poopletMeter;
 
 
     void OnDrawGizmosSelected()
@@ -39,6 +41,7 @@ public class TargetController : MonoBehaviour
                         if (hit.collider.transform.name == "TummyTarget")
                         {
                             // Debug.Log("Hit TummyTarget");
+                            poopletMeter.MovePooplets();
                         }
                         else  if (hit.collider.transform.name == "L_Foot")
                         {
@@ -57,6 +60,7 @@ public class TargetController : MonoBehaviour
                         else  if (hit.collider.transform.name == "R_Arm")
                         {
                             // Debug.Log("Hit R_Arm");
+                            doorKnob.StopAnim();
                         }
                         else  if (hit.collider.transform.name == "Above")
                         {
