@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DoorKnob : MonoBehaviour
 {
+    [SerializeField]private GameController gameController;
     private Animator anim;
 
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class DoorKnob : MonoBehaviour
     public void StopAnim()
     {
         anim.SetBool("MoveDoorKnob", false);
+        gameController.doorKnobActive = false;
     }
     
 }
