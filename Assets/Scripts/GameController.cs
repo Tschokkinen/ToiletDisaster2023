@@ -30,10 +30,23 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Spider.spiderStatus += SpiderStatus;
+        DoorKnob.doorKnobStatus += DoorKnobStatus;
+
         StartCoroutine(mouseSpawnerTimer());
         StartCoroutine(spiderSpawnerTimer());
         StartCoroutine(doorKnobTimer());
         StartCoroutine(generatePooplets());
+    }
+
+    public void SpiderStatus(object sender, bool status)
+    {
+        spiderActive = status;
+    }
+
+    public void DoorKnobStatus(object sender, bool status)
+    {
+        doorKnobActive = status;
     }
 
     IEnumerator mouseSpawnerTimer ()
@@ -57,7 +70,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // Rework spider timer when events are implemented
     IEnumerator spiderSpawnerTimer ()
     {
         while (true)
@@ -65,11 +77,8 @@ public class GameController : MonoBehaviour
             if (!spiderActive)
             {
                 float newTime = Random.Range(1.5f, 5.0f);
-
                 yield return new WaitForSeconds(newTime);
-
                 Instantiate(spider, spiderSpawner);
-                spiderActive = true;
             }
             yield return null;
         }
@@ -85,7 +94,6 @@ public class GameController : MonoBehaviour
 
                 yield return new WaitForSeconds(newTime);
                 doorKnob.StartAnim();
-                doorKnobActive = true;
             }
             yield return null;
         }

@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class DoorKnob : MonoBehaviour
 {
-    [SerializeField]private GameController gameController;
     private Animator anim;
+
+    // public delegate void DoorKnobStatus(bool status);
+    // public static DoorKnobStatus doorKnobStatus;
+    public static event EventHandler<bool> doorKnobStatus;
 
     // Start is called before the first frame update
     void Start()
@@ -16,12 +20,13 @@ public class DoorKnob : MonoBehaviour
     public void StartAnim()
     {
         anim.SetBool("MoveDoorKnob", true);
+        doorKnobStatus?.Invoke(this, true);
     }
 
     public void StopAnim()
     {
         anim.SetBool("MoveDoorKnob", false);
-        gameController.doorKnobActive = false;
+        doorKnobStatus?.Invoke(this, false);
     }
     
 }
