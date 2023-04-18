@@ -16,9 +16,11 @@ public class GameController : MonoBehaviour
     public bool poopletStillOnEnterPoint = false;
     [SerializeField]private GameObject[] poopletPrefabs;
     [SerializeField]private Transform poopletSpawner;
-    [SerializeField]private float poopletSpawnSpeedMin = 2.0f;
-    [SerializeField]private float poopletSpawnSpeedMax = 6.0f;
+    [SerializeField]private float poopletSpawnSpeedMin = 0.5f;
+    [SerializeField]private float poopletSpawnSpeedMax = 1.0f;
     [SerializeField]private LayerMask layermask;
+
+    private bool timer;
 
     void OnDrawGizmosSelected()
     {
@@ -32,11 +34,7 @@ public class GameController : MonoBehaviour
     {
         Spider.spiderStatus += SpiderStatus;
         DoorKnob.doorKnobStatus += DoorKnobStatus;
-
-        StartCoroutine(mouseSpawnerTimer());
-        StartCoroutine(spiderSpawnerTimer());
-        StartCoroutine(doorKnobTimer());
-        StartCoroutine(generatePooplets());
+        Timer.timerStatus += TimerStatus;
     }
 
     public void SpiderStatus(object sender, bool status)
@@ -47,6 +45,25 @@ public class GameController : MonoBehaviour
     public void DoorKnobStatus(object sender, bool status)
     {
         doorKnobActive = status;
+    }
+
+    public void TimerStatus(object sender, bool status)
+    {
+        if (status)
+        {
+            Time.timeScale = 1;
+            StartCoroutine(mouseSpawnerTimer());
+            StartCoroutine(spiderSpawnerTimer());
+            StartCoroutine(doorKnobTimer());
+            StartCoroutine(generatePooplets());
+        } else if (!status)
+        {
+            Time.timeScale = 0;
+            StopCoroutine(mouseSpawnerTimer());
+            StopCoroutine(spiderSpawnerTimer());
+            StopCoroutine(doorKnobTimer());
+            StopCoroutine(generatePooplets());
+        }
     }
 
     IEnumerator mouseSpawnerTimer ()
