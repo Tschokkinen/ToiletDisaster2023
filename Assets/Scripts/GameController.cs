@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField]private DoorKnob doorKnob;
+    [SerializeField] private DoorKnob doorKnob;
     public bool doorKnobActive = false;
-    [SerializeField]private Transform r_MouseSpawner;
-    [SerializeField]private Transform l_MouseSpawner;
-    [SerializeField]private Transform spiderSpawner;
-    [SerializeField]private GameObject mouse;
-    [SerializeField]private GameObject spider;
+    [SerializeField] private Transform r_MouseSpawner;
+    [SerializeField] private Transform l_MouseSpawner;
+    [SerializeField] private Transform spiderSpawner;
+    [SerializeField] private GameObject mouse;
+    [SerializeField] private GameObject spider;
     public bool spiderActive = false;
 
     public bool poopletStillOnEnterPoint = false;
-    [SerializeField]private GameObject[] poopletPrefabs;
-    [SerializeField]private Transform poopletSpawner;
-    [SerializeField]private float poopletSpawnSpeedMin = 0.5f;
-    [SerializeField]private float poopletSpawnSpeedMax = 1.0f;
-    [SerializeField]private LayerMask layermask;
+    [SerializeField] private GameObject[] poopletPrefabs;
+    [SerializeField] private Transform poopletSpawner;
+    [SerializeField] private float poopletSpawnSpeedMin = 0.5f;
+    [SerializeField] private float poopletSpawnSpeedMax = 1.0f;
+    [SerializeField] private LayerMask layermask;
 
     private bool timer;
 
@@ -56,7 +56,8 @@ public class GameController : MonoBehaviour
             StartCoroutine(spiderSpawnerTimer());
             StartCoroutine(doorKnobTimer());
             StartCoroutine(generatePooplets());
-        } else if (!status)
+        }
+        else if (!status)
         {
             Time.timeScale = 0;
             StopCoroutine(mouseSpawnerTimer());
@@ -66,7 +67,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    IEnumerator mouseSpawnerTimer ()
+    IEnumerator mouseSpawnerTimer()
     {
         while (true)
         {
@@ -83,11 +84,11 @@ public class GameController : MonoBehaviour
             {
                 Instantiate(mouse, l_MouseSpawner);
             }
-            
+
         }
     }
 
-    IEnumerator spiderSpawnerTimer ()
+    IEnumerator spiderSpawnerTimer()
     {
         while (true)
         {
@@ -101,7 +102,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    IEnumerator doorKnobTimer ()
+    IEnumerator doorKnobTimer()
     {
         while (true)
         {
@@ -116,17 +117,17 @@ public class GameController : MonoBehaviour
         }
     }
 
-    IEnumerator generatePooplets ()
+    IEnumerator generatePooplets()
     {
         while (true)
         {
-            float instantiationSpeed = Random.Range(poopletSpawnSpeedMin,poopletSpawnSpeedMax);
+            float instantiationSpeed = Random.Range(poopletSpawnSpeedMin, poopletSpawnSpeedMax);
 
             yield return new WaitForSeconds(instantiationSpeed);
 
             Collider[] hitColliders = Physics.OverlapSphere(poopletSpawner.GetComponent<Collider>().transform.position, 0.5f, layermask);
             if (hitColliders.Length == 0)
-            {  
+            {
                 // Currently only one type of pooplet is being used.
                 GameObject instance = Instantiate(poopletPrefabs[0], poopletSpawner.position, Quaternion.identity);
                 instance.name = poopletPrefabs[0].name;

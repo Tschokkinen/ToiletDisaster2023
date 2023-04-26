@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class TargetController : MonoBehaviour
 {
     public List<GameObject> enemies = new List<GameObject>();
+    private Timer timer;
     [SerializeField] private LayerMask layermask;
-    [SerializeField]private DoorKnob doorKnob;
-    [SerializeField]private PoopletMeter poopletMeter;
+    [SerializeField] private DoorKnob doorKnob;
+    [SerializeField] private PoopletMeter poopletMeter;
 
+    public static event EventHandler? MovePoopletEvent;
 
     void OnDrawGizmosSelected()
     {
@@ -19,14 +22,20 @@ public class TargetController : MonoBehaviour
 
     void Start()
     {
+        timer = GameObject.Find("GameController").GetComponent<Timer>();
         Debug.Log("TargetController started");
+    }
+
+    protected virtual void MovePooplet(EventArgs e)
+    {
+        MovePoopletEvent?.Invoke(this, e);
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        foreach(Touch touch in Input.touches)
+        foreach (Touch touch in Input.touches)
         {
             if (touch.phase == TouchPhase.Began)
             {
@@ -36,38 +45,39 @@ public class TargetController : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit))
                 {
-                    if (hit.collider.transform != null) 
+                    if (hit.collider.transform != null)
                     {
                         if (hit.collider.transform.name == "TummyTarget")
                         {
                             // Debug.Log("Hit TummyTarget");
-                            poopletMeter.MovePooplets();
+                            // poopletMeter.MovePooplets();
+                            MovePooplet(EventArgs.Empty);
                         }
-                        else  if (hit.collider.transform.name == "L_Foot")
+                        else if (hit.collider.transform.name == "L_Foot")
                         {
                             // Debug.Log("Hit L_Foot");
                             getHits(hit.collider);
                         }
-                        else  if (hit.collider.transform.name == "R_Foot")
+                        else if (hit.collider.transform.name == "R_Foot")
                         {
                             // Debug.Log("Hit R_Foot");
                             getHits(hit.collider);
                         }
-                        else  if (hit.collider.transform.name == "L_Arm")
+                        else if (hit.collider.transform.name == "L_Arm")
                         {
                             // Debug.Log("Hit L_Arm");
                         }
-                        else  if (hit.collider.transform.name == "R_Arm")
+                        else if (hit.collider.transform.name == "R_Arm")
                         {
                             // Debug.Log("Hit R_Arm");
                             doorKnob.StopAnim();
                         }
-                        else  if (hit.collider.transform.name == "Above")
+                        else if (hit.collider.transform.name == "Above")
                         {
                             // Debug.Log("Hit Above");
                             getHits(hit.collider);
                         }
-                        else  if (hit.collider.transform.name == "ToiletPaper")
+                        else if (hit.collider.transform.name == "ToiletPaper")
                         {
                             // Debug.Log("Hit ToiletPaper");
                         }
@@ -79,13 +89,14 @@ public class TargetController : MonoBehaviour
         }
     }
 
-    void getHits (Collider collider)
+    void getHits(Collider collider)
     {
         Collider[] hitColliders = Physics.OverlapSphere(collider.transform.position, 0.5f, layermask);
         foreach (var hitCollider in hitColliders)
         {
             // Debug.Log("HitCollider: " + hitCollider.gameObject.name);
             Destroy(hitCollider.gameObject);
+            timer.timeLeft += 10.0f;
         }
     }
 

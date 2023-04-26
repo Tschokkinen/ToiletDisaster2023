@@ -17,19 +17,19 @@ public class PoopletMeter : MonoBehaviour
     //     Gizmos.DrawWireCube(poopletMoveArea.transform.position, transform.localScale / 2);
     // }
 
-    public void MovePooplets ()
-    {
-        GameObject[] poopletsInScene = GameObject.FindGameObjectsWithTag("Pooplet");
+    // public void MovePooplets ()
+    // {
+    //     GameObject[] poopletsInScene = GameObject.FindGameObjectsWithTag("Pooplet");
 
-        // Collider[] hitColliders = Physics.OverlapBox(poopletMoveArea.transform.position, transform.localScale / 2, Quaternion.identity, layermask);
-        foreach (var obj in poopletsInScene)
-        {
-            Vector3 newPos = new Vector3(
-                obj.transform.position.x + defaultMoveValue, 
-                obj.transform.position.y, 
-                obj.transform.position.z
-                );
-            obj.transform.position = newPos;
-        }
-    }
+    //     // Collider[] hitColliders = Physics.OverlapBox(poopletMoveArea.transform.position, transform.localScale / 2, Quaternion.identity, layermask);
+    //     foreach (var obj in poopletsInScene)
+    //     {
+    //         Vector3 newPos = new Vector3(
+    //             obj.transform.position.x + defaultMoveValue, 
+    //             obj.transform.position.y, 
+    //             obj.transform.position.z
+    //             );
+    //         obj.transform.position = newPos;
+    //     }
+    // }
 }
